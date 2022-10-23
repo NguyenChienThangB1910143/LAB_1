@@ -3,6 +3,7 @@ import 'package:myshop/ui/products/products_manager.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/product.dart';
+import 'edit_product_screen.dart';
 
 class UserProductListTile extends StatelessWidget {
   final Product product;
@@ -33,8 +34,11 @@ class UserProductListTile extends StatelessWidget {
   Widget buildEditButton(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.delete),
-      onPressed: () async {
-        print('Delete a product');
+      onPressed: () {
+        Navigator.of(context).pushNamed(
+          EditProductScreen.routeName,
+          arguments: product.id,
+        );
       },
       color: Theme.of(context).errorColor,
     );
