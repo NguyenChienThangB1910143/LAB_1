@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import '../models/product.dart';
 import '../models/auth_token.dart';
@@ -23,9 +24,9 @@ class ProductsService extends FirebaseService {
         print(productsMap['error']);
         return products;
       }
-      final userFavoritesUrl =
+      final userFavoriteUrl =
           Uri.parse('$databaseUrl/userFavorites/$userId.json?auth=$token');
-      final userFavoritesResponse = await http.get(userFavoritesUrl);
+      final userFavoritesResponse = await http.get(userFavoriteUrl);
       final userFavoritesMap = json.decode(userFavoritesResponse.body);
       productsMap.forEach((productId, product) {
         final isFavorite = (userFavoritesMap == null)
@@ -92,6 +93,26 @@ class ProductsService extends FirebaseService {
     try {
       final url = Uri.parse('$databaseUrl/products/$id.json?auth=$token');
       final response = await http.delete(url);
+      if (response.statusCode != 200) {
+        throw Exception(json.decode(response.body)['error']);
+      }
+      return true;
+    } catch (error) {
+      print(error);
+      return false;
+    }
+  }
+
+  Future<bool> saveFavoriteStatus(Product product) async {
+    try {
+      final url = Uri.parse(
+          '$databaseUrl/userFavorites/$userId/${product.id}.json?auth=$token');
+      final response = await http.put(
+        url,
+        body: json.encode(
+          product.isFavorite,
+        ),
+      );
       if (response.statusCode != 200) {
         throw Exception(json.decode(response.body)['error']);
       }

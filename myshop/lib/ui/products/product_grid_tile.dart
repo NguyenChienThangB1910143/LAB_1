@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../models/product.dart';
 import '../cart/cart_manager.dart';
 import 'products_detail_screen.dart';
+import 'products_manager.dart';
 
 class ProductGridTile extends StatelessWidget {
   const ProductGridTile(
@@ -13,9 +14,10 @@ class ProductGridTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-        borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(10),
+      child: GridTile(
+        footer: buildGridFooterBar(context),
         child: GridTile(
-          footer: buildGridFooterBar(context),
           child: GestureDetector(
             onTap: () {
               Navigator.of(context).pushNamed(
@@ -28,7 +30,9 @@ class ProductGridTile extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget buildGridFooterBar(BuildContext context) {
@@ -43,7 +47,7 @@ class ProductGridTile extends StatelessWidget {
             ),
             color: Theme.of(context).colorScheme.secondary,
             onPressed: () {
-              product.isFavorite = !isFavorite;
+              ctx.read<ProductsManager>().toggleFavoriteStatus(product);
             },
           );
         },
