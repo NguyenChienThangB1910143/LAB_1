@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../models/product.dart';
-
 import '../cart/cart_manager.dart';
-import 'products_detail_screen.dart';
 import 'products_detail_screen.dart';
 
 class ProductGridTile extends StatelessWidget {

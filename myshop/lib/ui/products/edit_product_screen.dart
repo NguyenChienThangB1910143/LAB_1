@@ -47,8 +47,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
   void initState() {
     _imageUrlFocusNode.addListener(() {
       if (!_imageUrlFocusNode.hasFocus) {
-        if (!_isValidImageUrl(_imageUrlController.text)) {
-          return;
+        if (!_imageUrlFocusNode.hasFocus) {
+          if (!_isValidImageUrl(_imageUrlController.text)) {
+            return;
+          }
+          setState(() {});
         }
       }
     });
